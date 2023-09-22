@@ -1,24 +1,32 @@
-<div>
-    {{#each products}}
-    <p>{{this.}}</p>
-    <p>{{this.}}</p>
-    <p>{{this.}}</p>
-    <p>{{this.}}</p>
-    <p>{{this.}}</p>
-    <p>{{this.}}</p>
-    <p>{{this.}}</p>
-    <p>{{this.}}</p>
-    <p>{{this.}}</p>
-
-
-
-
-    {{/each}}    
-</div>
-
-
-
-
+<h1>Lista de Productos con Handlebars</h1>
+<table>
+    <thead>
+        <tr>
+            <th>Titulo</th>
+            <th>Descripción</th>
+            <th>Código</th>
+            <th>Precio</th>
+            <th>Estado</th>
+            <th>Stock</th>
+            <th>Categoría</th>
+            <th>Thumbnails</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each products}}
+        <tr>
+            <td>{{this.title}}</td>
+            <td>{{this.description}}</td>
+            <td>{{this.code}}</td>
+            <td>{{this.price}}</td>
+            <td>{{this.status}}</td>
+            <td>{{this.stock}}</td>
+            <td>{{this.category}}</td>
+            <td><img src="{{this.thumbnails}}" alt="ImgProduct"></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
 
 
 

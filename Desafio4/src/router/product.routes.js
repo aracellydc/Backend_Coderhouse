@@ -16,9 +16,12 @@ productRouter.get("/:id", async (req, res) => {
     res.send(await product.getProdById(id))
 })
 //Todos los productos
+//socket.io
 productRouter.get("/", async (req, res) => {
-    res.send(await product.getProducts())
+    let Tproducts = await product.getProducts()
+    res.render("realTimeProducts", { title: "Socket",Tproducts })
 })
+
 //Eliminamos los productos
 productRouter.delete("/:id", async (req, res) => {
     let id = req.params.id

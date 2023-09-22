@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+</head>
+<body>
+    
+<div>
+    <h1>Lista de Productos con Socket</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Código</th>
+                <th>Precio</th>
+                <th>Estado</th>
+                <th>Stock</th>
+                <th>Categoría</th>
+                <th>Thumbnails</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each Tproducts}}
+            <tr>
+                <td>{{this.title}}</td>
+                <td>{{this.description}}</td>
+                <td>{{this.code}}</td>
+                <td>{{this.price}}</td>
+                <td>{{this.status}}</td>
+                <td>{{this.stock}}</td>
+                <td>{{this.category}}</td>
+                <td><img src="{{this.thumbnails}}" alt="Imagen Producto"></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
+<div>
+    <h1>Formulario de Productos</h1>
+    <form>
+        <div> 
+            <input type="text" id="title" placeholder="Ingrese Titulo" required>
+            <input type="text" id="desc" placeholder="Ingrese Descripcion" required>
+            <input type="text" id="cod" placeholder="Ingrese Codigo" required>
+            <input type="text" id="price" placeholder="Ingrese Precio" required>
+        </div>
+        <div>
+            <input type="text" id="status" placeholder="Ingrese Status" required>
+            <input type="text" id="stock" placeholder="Ingrese Stock" required>
+            <input type="text" id="cat" placeholder="Ingrese Categoria" required>
+            <input type="text" id="img" placeholder="Ingrese Imagen" required>
+        </div>
+
+        <div>
+            <button type="submit">Crear</button>
+        </div>    
+    </form>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/realTimeProducts.js"></script>
+</body>
+</html>
