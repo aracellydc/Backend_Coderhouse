@@ -1,6 +1,6 @@
 import express from "express"
 import prodRouter from "./router/product.routes.js"
-import cartRouter from "./router/cart.routes.js"
+import cartRouter from "./router/carts.routes.js"
 import ProductManager from "./controllers/ProductManager.js"
 import CartManager from "./controllers/CartManager.js"
 import mongoose from "mongoose"
@@ -43,7 +43,7 @@ mongoose.connect("mongodb+srv://pruebaCoder:CHuV3YnIFOSmKCa7@pruebacoder.nw87acm
 //MongoAtlas
 app.use(session({
     store: MongoStore.create({
-        mongoUrl: "mongodb+srv://bastsrojas:ptLuitYCTl6wE4jB@cluster0.wx37dwm.mongodb.net/?retryWrites=true&w=majority",
+        mongoUrl: "mongodb+srv://pruebaCoder:CHuV3YnIFOSmKCa7@pruebacoder.nw87acm.mongodb.net/?retryWrites=true&w=majority",
         mongoOptions: { useNewUrlParser: true, useUnifiedTopology: true}, ttl: 3600
     }),
     secret: "ClaveSecreta",
