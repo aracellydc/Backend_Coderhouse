@@ -1,6 +1,6 @@
 import passport from 'passport'
 import local from 'passport-local'
-import { createHash, isValidPassword } from '../utils.js'
+//import { createHash, isValidPassword } from '../utils.js'
 import UserManager from "../controllers/UserManager.js"
 import GitHubStrategy from "passport-github2"
 

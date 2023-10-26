@@ -10,9 +10,11 @@ import __dirname from "./utils.js"
 import userRouter from "./router/user.routes.js";
 import MongoStore from "connect-mongo"
 import session from 'express-session'
-import sessionFileStore from "session-file-store"; 
+import FileStore from "session-file-store"; 
+import passport from "passport"
+import initializePassword from "./config/passport.config.js"
 
-const FileStore = sessionFileStore(session); 
+const FileStorege = FileStore(session); 
 const product = new ProductManager();
 const cart = new CartManager();
 
@@ -46,6 +48,11 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
 }))
+
+//Passport
+initializePassword()
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use("/api/products", ProductRouter)
 app.use("/api/cart", CartRouter)

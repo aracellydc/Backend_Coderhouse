@@ -11,16 +11,11 @@ import userRouter from "./router/user.routes.js"
 import MongoStore from "connect-mongo"
 import session from 'express-session'
 import FileStore from 'session-file-store'
-import passport from "passport"
-import initializePassword from "./config/passport.config.js"
 
 const app = express()
 const PORT = 8080 
-
-const fileStorage = FileStore(session)
 const product = new ProductManager()
 const cart = new CartManager()
-
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
@@ -56,11 +51,6 @@ app.use(session({
     saveUninitialized: false,
 }))
 
-//Passport//
-initializePassword()
-app.use(passport.initialize())
-app.use(passport.session())
-
 //Rutas CRUD
 app.use("/api/products", prodRouter)
 app.use("/api/carts", cartRouter)
@@ -78,6 +68,7 @@ app.get("/products", async (req, res) => {
         products : allProducts,
         email: req.session.emailUsuario,
         rol: req.session.rolUsuario,
+        algo: req.session.algo,
     });
 })
 app.get("/carts/:cid", async (req, res) => {
