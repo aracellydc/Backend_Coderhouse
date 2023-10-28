@@ -11,8 +11,8 @@ class UserManager extends userModel{
 
     async addUser(userData){
         try{
-            await userModel.create(userData);
-            return 'Usuario Agregado';
+            let userCreate = await userModel.create(userData);
+            return userCreate;
         } catch (error) {
             console.error('Error al agregar el usuario:', error);
             return 'Error al agregar el usuario';
@@ -21,7 +21,7 @@ class UserManager extends userModel{
 
     async updateUser(id,userData){
         try{   
-            const user = await UserManager.findOne(id);
+            const user = await UserManager.findById(id);
             if (!user){
                 return 'Usuario no encontrado'
             }
@@ -36,7 +36,7 @@ class UserManager extends userModel{
 
     async getUser(){
         try{   
-            const users = await userModel.find({});
+            const users = await userManager.find({});
             return users;
         } catch (error) {
             console.error('Error al obtener los usuarios:', error);
@@ -46,14 +46,11 @@ class UserManager extends userModel{
     
 
     async getUserById(id){
-        try
-        {   
+        try{   
             const user = await UserManager.findById(id).lean();
-            if (!user)
-            {
+            if (!user){
                 return 'Usuario no encontrado'
             }
-            
             return user;
         } catch (error) {
             console.error('Error al obtener el usuario:', error);
@@ -62,14 +59,11 @@ class UserManager extends userModel{
     }
 
     async deleteUser(id){
-        try
-        {   
+        try{   
             const user = await UserManager.findById(id);
-            if (!user)
-            {
+            if (!user){
                 return 'Usuario no encontrado'
             }
-            
             await user.remove();
             return 'Usuario Elimninado'
         } catch (error) {
@@ -80,7 +74,7 @@ class UserManager extends userModel{
 
     async validateUser(param) {
         try {
-            const user = await UserManager.findOne({ email: param });
+            const user = await UserManager.findOne({ email: param },{email:1, first_name:1, last_name:1, rol:1});
             if (!user) {
                 return 'Usuario no encontrado';
             }
@@ -88,6 +82,15 @@ class UserManager extends userModel{
         } catch (error) {
             console.error('Error al validar usuario:', error);
             return 'Error al validar usuario';
+        }
+    }
+    async findEmail(param) {
+        try {
+            const user = await UserManager.findOne(param)    
+            return user
+        } catch (error) {
+            console.error('Error al validar usuario', error);
+            return 'Error al obtener el usuario';
         }
     }
 }

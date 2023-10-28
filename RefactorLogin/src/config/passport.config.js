@@ -1,6 +1,6 @@
 import passport from 'passport'
 import local from 'passport-local'
-//import { createHash, isValidPassword } from '../utils.js'
+import { createHash, isValidPassword } from '../utils.js'
 import UserManager from "../controllers/UserManager.js"
 import GitHubStrategy from "passport-github2"
 
@@ -20,18 +20,9 @@ const initializePassword = () => {
               console.log("El usuario ya existe");
               return done(null, false);
             }
-      
+            
             const hashedPassword = await createHash(password);
-      
-            const newUser = {
-              first_name,
-              last_name,
-              email,
-              age,
-              password: hashedPassword,
-              rol
-            };
-      
+            const newUser = {first_name,last_name,email,age,password: hashedPassword,rol};
             let result = await userMan.addUser(newUser);
             return done(null, result);
           } catch (error) {
@@ -63,15 +54,13 @@ const initializePassword = () => {
             }
         }))
         passport.use('github', new GitHubStrategy({
-          clientID: "Iv1.765c1a483a7f1fcc",
-          clientSecret: "6ca9209b51323792574cab20f84433f2b9f95144",
+          clientID: "Iv1.33bf00334e9f292c",
+          clientSecret: "fef640fb3673aa8f9aab9bd272dcb7e8cfbed8d4",
           callbackURL: "http://localhost:8080/api/sessions/githubcallback"
         }, async (accessToken, refreshToken, profile, done)=>{
-          try
-          {
+          try{
             let user = await userMan.findEmail({email:profile._json.email})
-            if(!user)
-            {
+            if(!user){
               let newUser = {
                 first_name: profile._json.login,
                 last_name:"github",
@@ -83,16 +72,15 @@ const initializePassword = () => {
               let result = await userMan.addUser(newUser)
               done(null, result)
             }
-            else
-            {
+            else{
               done(null, user)
             }
-          }catch(error)
-          {
+          }catch(error){
             return done(error)
           }
         }
-        ))
+      )
+  )
 }
 
 export default initializePassword

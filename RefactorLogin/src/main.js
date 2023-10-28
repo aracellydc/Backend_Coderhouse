@@ -96,7 +96,7 @@ app.get("/carts/:cid", async (req, res) => {
     });
 });
 
-//ingresar al login, la ruta http://localhost:8080/login
+//la ruta http://localhost:8080/login
 app.get("/login", async (req, res)=>{
     res.render("login",{
         title:"Vista Login",
