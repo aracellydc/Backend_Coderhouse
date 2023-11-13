@@ -64,7 +64,7 @@ const initializePassword = () => {
               let newUser = {
                 first_name: profile._json.login,
                 last_name:"github",
-                age: 77,
+                age: 50,
                 email:profile._json.email,
                 password:"",
                 rol:"usuario"
