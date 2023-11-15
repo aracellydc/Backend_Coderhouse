@@ -8,13 +8,15 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
         body: JSON.stringify({email, password}),
         headers: {
             "Content-Type": "application/json",
-        }
+        },
     })
+
     if(response.ok){
         const data = await response.json()
         localStorage.setItem("token", data.token);
+        
         if(data.token && data.user.rol === 'admin'){
-
+            window.location.href='/admin'
         }else if(data.token && data.user.rol === 'usuario'){
             window.location.href = '/current'
         }

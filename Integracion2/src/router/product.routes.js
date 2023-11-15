@@ -14,15 +14,9 @@ ProductRouter.put("/:id", async (req, res) => {
 ProductRouter.get("/:id", async (req, res) => {
     try {
         const prodId = req.params.id;
-
         const productDetails = await product.getProductsById(prodId);
-
-        if (productDetails) {
-            res.render("viewDetails", { product: productDetails });
-        } else {
-            res.status(404).json({ error: 'Producto no encontrado' });
-        }
-    } catch (error) {
+        res.render("viewDetails", {product: productDetails});
+    }catch(error){
         console.error('Error al obtener producto', error);
         res.status(500).json({ error: 'Error al obtener producto' });
     }
@@ -44,8 +38,6 @@ ProductRouter.get("/page/:page", async (req, res)=> {
     if (isNaN(page) || page <= 0) {
         page = 1;
     }
-    
-    
     const productsPerPage = 1;
     res.send(await product.getProductsByPage(page, productsPerPage))
 })
@@ -81,28 +73,14 @@ ProductRouter.get("/", async (req, res)=> {
         avalability = ""
     }
     res.send(await product.getProductsMaster(null,null,category,avalability,sortOrder))
-
 })
 
 
 ProductRouter.post("/", async (req, res) => {
     let newProduct = req.body;
 
-    if (
-        !newProduct.description ||
-        !newProduct.img ||
-        !newProduct.Price ||
-        !newProduct.Stock ||
-        !newProduct.category ||
-        !newProduct.avalability
-    ) {
-        return res.status(400).json({ error: 'Debe proporcionar todos los campos: description, img, Price, Stock, category, avalability.' });
-    }
-
     res.send(await product.addProducts(newProduct));
 });
-
-
 
 
 ProductRouter.delete("/:id", async (req, res) => {

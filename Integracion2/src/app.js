@@ -3,7 +3,7 @@ import mongoose from "mongoose"
 import passport from "passport"
 import cookieParser from "cookie-parser"
 import jwt from "jsonwebtoken"
-import session from "express-session"
+import session from 'express-session'
 import { Strategy as JwtStrategy } from 'passport-jwt';
 import { ExtractJwt as ExtractJwt } from 'passport-jwt';
 import * as path from "path"
@@ -20,19 +20,16 @@ const carts = new CartManager()
 
 const app = express()
 //no uso, para prueba
-app.use(session({
-    store: MongoStore.create({
-        mongoUrl: "mongodb+srv://pruebaCoder:CHuV3YnIFOSmKCa7@pruebacoder.nw87acm.mongodb.net/?retryWrites=true&w=majority",
-        mongoOptions: {useNewUrlParser: true, useUnifiedTopology: true}, ttl:3600
-    }),
-    secret: "ClaveSecreta",
-    resave: false,
-    saveUninitialized: false,
-}))
+// app.use(session({
+//     store: MongoStore.create({
+//         mongoUrl: "mongodb+srv://pruebaCoder:CHuV3YnIFOSmKCa7@pruebacoder.nw87acm.mongodb.net/?retryWrites=true&w=majority",
+//         mongoOptions: {useNewUrlParser: true, useUnifiedTopology: true}, ttl:3600
+//     }),
+//     secret: "ClaveSecreta",
+//     resave: false,
+//     saveUninitialized: false,
+// }))
 
-// const users = [
-//     {id:1, email:"test@example.com", password:"pass123", role: "user"}
-// ]
 
 const jwtOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -56,7 +53,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(cookieParser());
 initializePassport();
 app.use(passport.initialize());
-app.use(passport.session())
+// app.use(passport.session())
 
 app.post("/login",async (req,res)=>{
     const {email, password} = req.body
@@ -66,7 +63,7 @@ app.post("/login",async (req,res)=>{
     if(!user || user.password !== password){
         return res.status(401).json({message: "Error de autenticacion"})
     }
-    const token = jwt.generateAndSetToken(res, email,password);
+    const token = generateAndSetToken(res, email,password);
     res.json({token, user:{email: user.email, rol:user.rol}});
 })
 
@@ -75,7 +72,7 @@ app.post("/api/register",async (req,res)=>{
     const emailToFind = email;
     const exists = await users.findEmail({email: emailToFind})
     if( exists) return res.status(400).send({status:"error", error: "Usuario ya existe"})
-    const newUser = {first_name, last_name, email, age, password,cart: carts.addCarts(), rol};
+    const newUser = {first_name, last_name, email, age, password,cart: carts.addCart(), rol};
     users.addUser(newUser)
     const token = generateAndSetToken(res, email, password)
     res.send({token})
@@ -88,13 +85,16 @@ app.get('/register', (req, res) => {
     res.sendFile('register.html', { root: app.get('views') });
 });
 
+app.get('/current', passportCall('jwt'), authorization('user'), (req, res) => {
+    res.sendFile('home.html', {root: app.get('views') });
+})
 app.listen(8080, () => {
     console.log("Servidor corriendo en puerto 8080")
 })
-//-------------------------------------Mongoose----------------------------------------------------------//
-mongoose.connect("mongodb+srv://bastsrojas:ptLuitYCTl6wE4jB@cluster0.wx37dwm.mongodb.net/?retryWrites=true&w=majority")
+//Mongoose
+mongoose.connect("mongodb+srv://pruebaCoder:CHuV3YnIFOSmKCa7@pruebacoder.nw87acm.mongodb.net/?retryWrites=true&w=majority")
 .then(()=>{
-    console.log("Conectado con Mongo Atlas")
+    console.log("Conectado a la base de datos")
 })
 .catch(error => {
     console.error("Error al conectarse a la base de datos, error"+error)
