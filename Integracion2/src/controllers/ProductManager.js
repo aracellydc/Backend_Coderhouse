@@ -40,8 +40,7 @@ class ProductManager extends productsModel {
         }
     }
 
-    async getProductsByPage(page, productsPerPage)
-    {
+    async getProductsByPage(page, productsPerPage){
         if (page <= 0) {
             page = 1 
         }

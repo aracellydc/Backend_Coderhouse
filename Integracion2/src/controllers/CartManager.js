@@ -73,7 +73,6 @@ class CartManager extends cartsModel {
         } catch (error){
             console.error('error al obtener los carritos:' , error );
             return[];
-
         }
     }
 
@@ -176,11 +175,6 @@ class CartManager extends cartsModel {
             return 'Error al obtener el carrito con products';
         }
     }
-
-
-
-
-
 }
 
 export default CartManager
